@@ -1,0 +1,111 @@
+@font-face {
+    font-family: thasadith;
+    src: url("./Thasadith-Regular.ttf");
+}
+
+@font-face {
+    font-family: mono;
+    src: url("./CutiveMono-Regular.ttf");
+}
+
+.dayType {
+    margin-left: auto;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    text-align: right;
+    display: block;
+    background-color: #FFFFFFE6;
+    padding: 10px;
+    width: 50%;
+    min-width: 400px;
+    max-width: 500px;
+    margin-bottom: 1rem;
+}
+
+    .dayType p {
+        text-align: center;
+        font-size: 5rem;
+        margin: 0;
+        line-height: 1.25;
+    }
+
+.schedule {
+    margin-left: auto;
+    margin-right: 1rem;
+    text-align: right;
+    padding: 10px;
+    display: block;
+    background-color: #FFFFFFE6;
+    width: 50%;
+    min-width: 400px;
+    max-width: 500px;
+}
+
+.nothighlight {
+    background-color: #F2CA64;
+}
+
+.highlight {
+    background-color: #FFB800;
+}
+
+.period {
+    margin: 0 auto;
+    margin-top: 5px;
+    text-align: center;
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    overflow: hidden;
+}
+
+    .period h2 {
+        font-size: 2rem;
+        text-align: left;
+        padding: 0;
+        padding-left: 10px;
+        margin: 0;
+    }
+
+    .period b {
+        text-align: left;
+        float: left;
+        padding-left: 10px;
+    }
+
+    .period p {
+        font-family: mono;
+        display: inline;
+        text-align: right;
+        float: right;
+        padding: 0;
+        padding-right: 10px;
+        margin: 0;
+    }
+
+.blue {
+    color: blue;
+}
+
+.red {
+    color: red;
+}
+
+#bg {
+    position: fixed;
+    top: 0;
+    z-index: -1;
+    background-image: url("./bg.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: 110vw auto;
+    width: 100vw;
+    height: 100vh;
+}
+
+body {
+    font-family: thasadith;
+    overflow-x: hidden;
+    margin: 0;
+}
