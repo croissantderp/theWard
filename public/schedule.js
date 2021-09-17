@@ -15,7 +15,7 @@ var per8 = [new Date("1969", "1", "1"), new Date("1969", "1", "1")];
 var per9 = [new Date("1969", "1", "1"), new Date("1969", "1", "1")];
 
 function initiate2() {
-    let date = new Date();
+    let date = toUTC(new Date());
 
     per1[0].setUTCHours(11, 5);
     per1[1].setUTCHours(11, 45);
@@ -52,7 +52,7 @@ function initiate2() {
 
     let stringDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 
-    if ((startDate < date && date < endDate) || !(date in daysOff)) {
+    if ((startDate < date && date < endDate) || !(date.toDateString() in daysOff)) {
         switch (date.getDay) {
             case 0:
                 setNone();
@@ -68,7 +68,9 @@ function initiate2() {
             case 4:
                 break;
             case 5:
-
+                if (date in fridayAs) {
+                    setA();
+                }
                 break;
             case 6:
                 setNone();
@@ -81,6 +83,13 @@ function initiate2() {
 
     displayPeriod();
     setInterval(displayPeriod, 1000)
+}
+
+function toUTC(date) {
+    var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
+        date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+
+    return new Date(now_utc);
 }
 
 function setNone() {
@@ -97,9 +106,9 @@ function setA() {
 }
 
 function displayPeriod() {
-    let tempdate = new Date();
+    let tempdate = toUTC(new Date());
 
-    tempdate.setFullYear("1969", "1", "1");
+    tempdate.setUTCFullYear("1969", "1", "1");
 
     let p1 = document.getElementById("1");
     let p2 = document.getElementById("2");
@@ -122,37 +131,44 @@ function displayPeriod() {
     p9.classList.remove("highlight");
 
     if (tempdate > per1[0] && tempdate < per1[1]) {
-        p1.childNodes[1].innerHTML = "Ending in" + per1[1] - tempdate;
+        p1.children[1].innerHTML = "Ending in " + msToTime(per1[1] - tempdate);
         p1.classList.remove("nothighlight");
         p1.classList.add("highlight");
     }
     if (tempdate > per2[0] && tempdate < per2[1]) {
+        p2.children[1].innerHTML = "Ending in " + msToTime(per2[1] - tempdate);
         p2.classList.remove("nothighlight");
         p2.classList.add("highlight");
     }
     if (tempdate > per3[0] && tempdate < per3[1]) {
+        p3.children[1].innerHTML = "Ending in " + msToTime(per3[1] - tempdate);
         p3.classList.remove("nothighlight");
         p3.classList.add("highlight");
     }
     if (tempdate > per4[0] && tempdate < per4[1]) {
+        p4.children[1].innerHTML = "Ending in " + msToTime(per4[1] - tempdate);
         p4.classList.remove("nothighlight");
         p4.classList.add("highlight");
     }
     if (tempdate > per5[0] && tempdate < per5[1]) {
+        p5.children[1].innerHTML = "Ending in " + msToTime(per5[1] - tempdate);
         p5.classList.remove("nothighlight");
         p5.classList.add("highlight");
     }
     if (tempdate > per6[0] && tempdate < per6[1]) {
+        p6.children[1].innerHTML = "Ending in " + msToTime(per6[1] - tempdate);
         p6.classList.remove("nothighlight");
         p6.classList.add("highlight");
     }
     if (tempdate > per7[0] && tempdate < per7[1]) {
+        p7.children[1].innerHTML = "Ending in " + msToTime(per7[1] - tempdate);
         p7.classList.remove("nothighlight");
         p7.classList.add("highlight");
     }
     if (tempdate > per8[0] && tempdate < per8[1]) {
-        p9.classList.remove("nothighlight");
-        p9.classList.add("highlight");
+        p8.children[1].innerHTML = "Ending in " + msToTime(per8[1] - tempdate);
+        p8.classList.remove("nothighlight");
+        p8.classList.add("highlight");
     }
     if (tempdate > per9[0] && tempdate < per9[1]) {
         p9.children[1].innerHTML = "Ending in " + msToTime(per9[1] - tempdate);
