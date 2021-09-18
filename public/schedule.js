@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () { initiate2(); });
 
 var fridayAs = [];
 var daysOff = [];
+var todayoff = false;
 var startDate = new Date("2021-9-9");
 var endDate = new Date("2022-6-24");
 var per = [[new Date("1969", "1", "1"), new Date("1969", "1", "1")],
@@ -60,8 +61,17 @@ function initiate2() {
 
     let stringDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 
+    checkDay();
+
+    displayPeriod();
+    setInterval(displayPeriod, 1000)
+}
+
+function checkDay() {
+    let date = toUTC(new Date());
+
     if ((startDate < date && date < endDate) || !(date.toDateString() in daysOff)) {
-        switch (date.getDay) {
+        switch (date.getDay()) {
             case 0:
                 setNone();
                 break;
@@ -69,13 +79,16 @@ function initiate2() {
                 setA();
                 break;
             case 2:
+                todayoff = false;
                 break;
             case 3:
                 setA();
                 break;
             case 4:
+                todayoff = false;
                 break;
             case 5:
+                todayoff = false;
                 if (date in fridayAs) {
                     setA();
                 }
@@ -88,9 +101,6 @@ function initiate2() {
     else {
         setNone();
     }
-
-    displayPeriod();
-    setInterval(displayPeriod, 1000)
 }
 
 function toUTC(date) {
@@ -101,10 +111,12 @@ function toUTC(date) {
 }
 
 function setNone() {
+    todayoff = true;
     document.getElementById("neverGonnaGiveYouUp").innerHTML = "No school today";
 }
 
 function setA() {
+    todayoff = false;
     let dayType = document.getElementById("type");
 
     dayType.innerHTML = "A";
@@ -114,6 +126,10 @@ function setA() {
 }
 
 function displayPeriod() {
+    if (todayoff) {
+        checkDay();
+        return;
+    }
     let date = new Date();
     let tempdate = toUTC(date);
 
