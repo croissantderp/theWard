@@ -34,6 +34,14 @@ function add(local, amount = 0) {
 
         //Listen for the events
         $(assignment.children[0]).on("click", function (e) {
+            if ($(assignment.children[0]).is(":checked")) {
+                assignment.children[1].disabled = true;
+                assignment.children[2].disabled = true;
+            }
+            else {
+                assignment.children[1].disabled = false;
+                assignment.children[2].disabled = false;
+            }
             save();
             addLast(assignment);
         });
@@ -54,8 +62,21 @@ function add(local, amount = 0) {
         assignment.children[3].onclick = function () { aDiv.removeChild(this.parentNode); save(); };
         //Listen for the events
         $(assignment.children[0]).on("click", function (e) {
+            if ($(assignment.children[0]).is(":checked")) {
+                assignment.children[1].disabled = true;
+                assignment.children[2].disabled = true;
+            }
+            else {
+                assignment.children[1].disabled = false;
+                assignment.children[2].disabled = false;
+            }
             save();
         });
+
+        if ($(assignment.children[0]).is(":checked")) {
+            assignment.children[1].disabled = true;
+            assignment.children[2].disabled = true;
+        }
 
         $(assignment.children[1]).on("keyup", function (e) {
             save();
