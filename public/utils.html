@@ -43,6 +43,21 @@
                 temp = wide ? ($(window).width() * 1.1) * (443 / 600) : $(window).height() * 1.1;
                 bg.style.backgroundPositionY = $(window).height() / 2 - temp / 2 - (e.pageY * 0.01) + "px";
             });
+
+            let coll = document.getElementsByClassName("collapsible");
+
+            for (let i = 0; i < coll.length; i++) {
+                let content = coll[i].nextElementSibling;
+                content.style.display = "none";
+
+                $(coll[i]).click(function () {
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                    } else {
+                        content.style.display = "block";
+                    }
+                });
+            }
         }
 
     </script>
@@ -69,33 +84,35 @@
     </h1>
 
     <div class="about">
-        <h2>
-            School Map
+        <h2 class="collapsible">
+            School Map ◢
         </h2>
 
-        <p>first floor</p>
-        <img src="./assets/downstairs.webp" />
+        <div>
+            <p>first floor</p>
+            <img alt="A map of the downstairs portion of Ward Melville High School" src="./assets/downstairs.webp" />
 
-        <p>second floor</p>
-        <img src="./assets/upstairs.webp" />
+            <p>second floor</p>
+            <img alt="A map of the upstairs portion of Ward Melville High School" src="./assets/upstairs.webp" />
+        </div>
 
-        <h2>
-            School Calender
+        <h2 class="collapsible">
+            School Calender ◢
         </h2>
 
-        <img src="./assets/2021-2022_Calendar_BOE_Approved.webp" />
+        <img alt="The district calender for this school year" src="./assets/2021-2022_Calendar_BOE_Approved.webp" />
 
-        <h2>
-            A-B Rotation Schedule
+        <h2 class="collapsible">
+            A-B Rotation Schedule ◢
         </h2>
 
-        <img src="./assets/2021-2022_A-B_Rotation_1.webp" />
+        <img alt="The A-B rotation schedule for this school year" src="./assets/2021-2022_A-B_Rotation_1.webp" />
 
-        <h2>
-            Bell Schedule
+        <h2 class="collapsible">
+            Bell Schedule ◢
         </h2>
 
-        <img alt="" src="./assets/Bell_Schedule_2021-2022_School_Year_1.webp" />
+        <img alt="The bell schedule for this school year" src="./assets/Bell_Schedule_2021-2022_School_Year_1.webp" />
     </div>
 
 </body>
