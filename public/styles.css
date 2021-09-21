@@ -57,7 +57,6 @@
 .schedule {
     margin-left: auto;
     margin-right: 1rem;
-    text-align: right;
     padding: 10px;
     display: block;
     background-color: #FFFFFFE6;
@@ -65,6 +64,10 @@
     min-width: 400px;
     max-width: 500px;
     margin-bottom: 1rem;
+}
+
+.schedule h2 {
+    margin: 0;
 }
 
 .nothighlight {
@@ -96,7 +99,7 @@
     .period b {
         text-align: left;
         float: left;
-        padding-left: 10px;
+        padding-left: 7.5px;
     }
 
     .period p {
@@ -122,10 +125,26 @@
     margin-bottom: 1rem;
 }
 
-#assignments div {
-    cursor: move;
-    user-select: none;
-}
+    #assignments h2 {
+        margin: 0;
+    }
+
+    #assignments div div {
+        cursor: move;
+        user-select: none;
+        background-color: #F2CA64;
+        padding: 5px;
+        margin-top: 5px;
+    }
+
+        #assignments div div:hover {
+            background-color: #FFB800;
+        }
+
+        #assignments div div input {
+            outline: none;
+            border-style: hidden;
+        }
 
 .blue {
     color: blue;

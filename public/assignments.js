@@ -7,7 +7,7 @@ function initiate3() {
 
     let amount = localStorage.length;
 
-    aDiv = document.getElementById("assignments");
+    aDiv = document.getElementById("assignments").children[1];
 
     for (let i = 0; i < amount / 3; i++) {
         add(false, i);

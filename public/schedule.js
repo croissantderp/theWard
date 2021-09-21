@@ -5,15 +5,16 @@ var daysOff = [];
 var todayoff = false;
 var startDate = new Date("2021-9-9");
 var endDate = new Date("2022-6-24");
-var per = [[new Date("1969", "1", "1"), new Date("1969", "1", "1")],
-[new Date("1969", "1", "1"), new Date("1969", "1", "1")],
-[new Date("1969", "1", "1"), new Date("1969", "1", "1")],
-[new Date("1969", "1", "1"), new Date("1969", "1", "1")],
-[new Date("1969", "1", "1"), new Date("1969", "1", "1")],
-[new Date("1969", "1", "1"), new Date("1969", "1", "1")],
-[new Date("1969", "1", "1"), new Date("1969", "1", "1")],
-[new Date("1969", "1", "1"), new Date("1969", "1", "1")],
-[new Date("1969", "1", "1"), new Date("1969", "1", "1")]];
+var per = [
+    [new Date("1971", "1", "1"), new Date("1971", "1", "1")],
+    [new Date("1971", "1", "1"), new Date("1971", "1", "1")],
+    [new Date("1971", "1", "1"), new Date("1971", "1", "1")],
+    [new Date("1971", "1", "1"), new Date("1971", "1", "1")],
+    [new Date("1971", "1", "1"), new Date("1971", "1", "1")],
+    [new Date("1971", "1", "1"), new Date("1971", "1", "1")],
+    [new Date("1971", "1", "1"), new Date("1971", "1", "1")],
+    [new Date("1971", "1", "1"), new Date("1971", "1", "1")],
+    [new Date("1971", "1", "1"), new Date("1971", "1", "1")]];
 
 var p = [];
 
@@ -131,13 +132,13 @@ function displayPeriod() {
         return;
     }
     let date = new Date();
-    let tempdate = toUTC(date);
 
-    tempdate.setUTCFullYear("1969", "1", "1");
+    let tempdate = toUTC(date);
+    tempdate.setUTCFullYear("1971", "1", "1");
 
     var none = true;
     var closestP;
-    var closest;
+    var closest = 100000000000000000000000000;
 
     for (var i = 0; i < 9; i++) {
         var temp = per[i][0] - tempdate;
@@ -165,15 +166,20 @@ function displayPeriod() {
         }
     }
 
-    if (tempdate > per[8][1]) {
-        p[8].children[1].innerHTML = "Ended " + msToTime(tempdate - per[8][1]) + " ago";
-        none = false;
-    }
+    let offset = new Date().getTimezoneOffset();
+    let time = new Date(per[8][1].toLocaleString());
+
+    time.setMinutes(per[8][1].getMinutes() - offset);
+    date.setMinutes(date.getMinutes() - offset);
 
     if (none) {
-        p[closestP].innerHTML = "Beginning in " + msToTime(closest);
+        if ((date > time)) {
+            p[8].children[1].innerHTML = "<b>Ended " + msToTime(date - time) + " ago</b>";
+        }
+        else {
+            p[closestP].children[1].innerHTML = "<b>Beginning in " + msToTime(closest) + "</b>";
+        }
     }
-
 }
 
 //from https://stackoverflow.com/questions/19700283/how-to-convert-time-in-milliseconds-to-hours-min-sec-format-in-javascript
