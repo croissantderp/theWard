@@ -2,14 +2,16 @@ document.addEventListener('DOMContentLoaded', function () { initiate3(); });
 
 var aDiv;
 var last;
+var info = [[]];
 
 function initiate3() {
 
-    let amount = localStorage.length;
+    info = JSON.parse(localStorage.getItem("assignments"));
+    let amount = info == null ? 0 : info.length;
 
     aDiv = document.getElementById("assignments").children[1];
 
-    for (let i = 0; i < amount / 3; i++) {
+    for (let i = 0; i < amount; i++) {
         add(false, i);
     }
 
@@ -42,6 +44,7 @@ function add(local, amount = 0) {
                 assignment.children[1].disabled = false;
                 assignment.children[2].disabled = false;
             }
+
             save();
             addLast(assignment);
         });
@@ -57,9 +60,12 @@ function add(local, amount = 0) {
         });
     }
     else {
-        assignment.innerHTML = '<input type = "checkbox" placeholder="false" ' + (localStorage.getItem(amount.toString() + "check") == "true" ? "checked" : "") + '/> <input type="text" placeholder="assignment name" value="' + localStorage.getItem(amount.toString() + "name") + '" /> <input type="date" value="' + localStorage.getItem(amount.toString() + "date") + '" /> <input type="button" value="remove" />';
-
-        assignment.children[3].onclick = function () { aDiv.removeChild(this.parentNode); save(); };
+        assignment.innerHTML = '<input type = "checkbox" placeholder="false" ' + (info[amount][0] == "true" ? "checked" : "") + '/> <input type="text" placeholder="assignment name" value="' + info[amount][1] + '" /> <input type="date" value="' + info[amount][2] + '" /> <input type="button" value="remove" />';
+        
+        assignment.children[3].onclick = function () {
+            aDiv.removeChild(this.parentNode);
+            save();
+        };
         //Listen for the events
         $(assignment.children[0]).on("click", function (e) {
             if ($(assignment.children[0]).is(":checked")) {
@@ -70,6 +76,7 @@ function add(local, amount = 0) {
                 assignment.children[1].disabled = false;
                 assignment.children[2].disabled = false;
             }
+
             save();
         });
 
@@ -79,10 +86,12 @@ function add(local, amount = 0) {
         }
 
         $(assignment.children[1]).on("keyup", function (e) {
+
             save();
         });
 
         $(assignment.children[2]).on("change", function (e) {
+
             save();
         });
     }
@@ -93,10 +102,12 @@ function add(local, amount = 0) {
 }
 
 function save() {
-    localStorage.clear();
+    var info2 = [];
     for (let i = 0; i < aDiv.children.length - 1; i++) {
-        localStorage.setItem(i.toString() + "check", $(aDiv.children[i].children[0]).is(":checked"));
-        localStorage.setItem(i.toString() + "name", $(aDiv.children[i].children[1]).val());
-        localStorage.setItem(i.toString() + "date", $(aDiv.children[i].children[2]).val());
+        info2[i] = [];
+        info2[i][0] = $(aDiv.children[i].children[0]).is(":checked");
+        info2[i][1] = $(aDiv.children[i].children[1]).val();
+        info2[i][2] = $(aDiv.children[i].children[2]).val();
     }
+    localStorage.setItem("assignments", JSON.stringify(info2));
 }

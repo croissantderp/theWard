@@ -1,7 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () { initiate2(); });
 
-var fridayAs = [];
+var fridayAs = [
+    new Date("2021-9-23")
+];
 var daysOff = [];
+
+var isA = false;
 var todayoff = false;
 var startDate = new Date("2021-9-9");
 var endDate = new Date("2022-6-24");
@@ -20,12 +24,6 @@ var p = [];
 
 function initiate2() {
     let date = toUTC(new Date());
-
-    for (var i = 0; i < 9; i++) {
-        let temp = document.getElementById((i + 1).toString());
-
-        p.push(temp);
-    }
 
     per[0][0].setUTCHours(11, 5);
     per[0][1].setUTCHours(11, 45);
@@ -64,8 +62,30 @@ function initiate2() {
 
     checkDay();
 
+    for (var i = 0; i < 9; i++) {
+        let temp = document.getElementById((i + 1).toString());
+        let gottem = localStorage.getItem(isA && i == 7 ? "period" + i + "A" : "period" + i);
+        temp.children[0].value = gottem == null || gottem == "" ? "Period " + (i + 1) : gottem;
+
+        let object = {
+            i: i
+        }
+        let copy = $.extend(true, {}, object);
+
+        $(temp.children[0]).on("change", function () {
+            let text = $(temp.children[0]).val();
+            if (text == "") {
+                temp.children[0].value = "Period " + (copy.i + 1);
+            }
+            localStorage.setItem("period" + copy.i, text);
+        });
+
+        p.push(temp);
+    }
+
     displayPeriod();
-    setInterval(displayPeriod, 1000)
+    setInterval(displayPeriod, 1000);
+    setInterval(checkDay, 1000 * 60 * 60);
 }
 
 function checkDay() {
@@ -118,6 +138,7 @@ function setNone() {
 
 function setA() {
     todayoff = false;
+    isA = true;
     let dayType = document.getElementById("type");
 
     dayType.innerHTML = "A";
@@ -133,8 +154,8 @@ function displayPeriod() {
     }
     let date = new Date();
 
+    date.setUTCFullYear("1971", "1", "1");
     let tempdate = toUTC(date);
-    tempdate.setUTCFullYear("1971", "1", "1");
 
     var none = true;
     var closestP;
@@ -148,7 +169,7 @@ function displayPeriod() {
         }
 
         if (tempdate > per[i][0] && tempdate < per[i][1]) {
-            p[i].children[1].innerHTML = "<b>Ending in " + msToTime(per[i][1] - tempdate) + "</b>";
+            p[i].children[1].innerHTML = "Ending in " + msToTime(per[i][1] - tempdate);
             p[i].classList.remove("nothighlight");
             p[i].classList.add("highlight");
             none = false;
@@ -174,10 +195,10 @@ function displayPeriod() {
 
     if (none) {
         if ((date > time)) {
-            p[8].children[1].innerHTML = "<b>Ended " + msToTime(date - time) + " ago</b>";
+            p[8].children[1].innerHTML = "Ended " + msToTime(date - time) + " ago";
         }
         else {
-            p[closestP].children[1].innerHTML = "<b>Beginning in " + msToTime(closest) + "</b>";
+            p[closestP].children[1].innerHTML = "Beginning in " + msToTime(closest);
         }
     }
 }

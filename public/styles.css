@@ -81,12 +81,31 @@
 .period {
     margin: 0 auto;
     margin-top: 5px;
-    text-align: center;
     display: block;
     width: 100%;
     max-width: 500px;
     overflow: hidden;
 }
+    .period input {
+        width: 100%;
+        font-family: thasadith;
+        font-size: 2rem;
+        text-align: left;
+        padding: 0;
+        padding-left: 10px;
+        margin: 0;
+        border-style: hidden;
+        background-color: #00000000;
+    }
+
+        .period input:hover {
+            border-style: hidden;
+            background-color: #FFFFFF50;
+        }
+
+        .period input:focus {
+            outline-width: 0;
+        }
 
     .period h2 {
         font-size: 2rem;
@@ -143,6 +162,7 @@
 
         #assignments div div input {
             outline: none;
+            outline-width: 0;
             border-style: hidden;
         }
 
@@ -189,6 +209,27 @@
         max-height: 100%;
         max-width: 100%;
         object-fit: contain;
+    }
+
+#clubs {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+    #clubs tr {
+        border: 1px solid black;
+    }
+
+        #clubs tr th {
+            background-color: #F2CA64;
+            border: 1px solid black;
+        }
+
+    #clubs td {
+        border: 1px solid black;
+        padding: 1px;
+        padding-left: 5px;
     }
 
 body {
