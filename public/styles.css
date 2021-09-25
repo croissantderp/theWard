@@ -161,10 +161,61 @@
         }
 
         #assignments div div input {
-            outline: none;
-            outline-width: 0;
-            border-style: hidden;
+            font-family: thasadith;
+            font-weight: 900;
+            height: 1.5rem;
+            vertical-align: middle;
+            background-color: #00000000;
+            border-width: 1px;
+            border-style: solid;
+            border-color: black;
+            border-radius: 5px;
+            box-sizing: border-box;
         }
+
+            #assignments div div input::placeholder {
+                color: black;
+            }
+
+            #assignments div div input:disabled {
+                color: black;
+                background-color: #00000030;
+            }
+
+            #assignments div div input:disabled:hover {
+                background-color: #00000030;
+            }
+
+            #assignments div div label input {
+            visibility: hidden;
+            vertical-align: middle;
+            display: block;
+            height: 0;
+            width: 0;
+            position: absolute;
+            overflow: hidden;
+            }
+
+        #assignments div div label span {
+            vertical-align: middle;
+            height: 1.5rem;
+            width: 1.5rem;
+            border-width: 1px;
+            border-style: solid;
+            border-color: black;
+            display: inline-block;
+            box-sizing: border-box;
+            border-radius: 5px;
+        }
+
+
+[type=checkbox]:checked + span { /* <-- Style its checked state */
+    background: black;
+}
+
+            #assignments div div input:hover {
+                background-color: #FFFFFF50;
+            }
 
 .blue {
     color: blue;

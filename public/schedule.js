@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () { initiate2(); });
 
 var fridayAs = [
-    new Date("2021-9-23")
+    "2021-9-24"
 ];
 var daysOff = [];
 
@@ -91,7 +91,7 @@ function initiate2() {
 function checkDay() {
     let date = toUTC(new Date());
 
-    if ((startDate < date && date < endDate) || !(date.toDateString() in daysOff)) {
+    if ((startDate < date && date < endDate) || daysOff.indexOf(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()) == -1) {
         switch (date.getDay()) {
             case 0:
                 setNone();
@@ -110,7 +110,7 @@ function checkDay() {
                 break;
             case 5:
                 todayoff = false;
-                if (date in fridayAs) {
+                if (fridayAs.indexOf(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()) != -1) {
                     setA();
                 }
                 break;
