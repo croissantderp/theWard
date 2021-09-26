@@ -60,8 +60,6 @@ function initiate2() {
 
     let stringDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 
-    checkDay();
-
     for (var i = 0; i < 9; i++) {
         let temp = document.getElementById((i + 1).toString());
         let gottem = localStorage.getItem(isA && i == 7 ? "period" + i + "A" : "period" + i);
@@ -82,6 +80,8 @@ function initiate2() {
 
         p.push(temp);
     }
+
+    checkDay();
 
     displayPeriod();
     setInterval(displayPeriod, 1000);
@@ -124,6 +124,19 @@ function checkDay() {
     }
 }
 
+function tmNone(date) {
+    date.setDate(date.getDate() + 1);
+
+    if (startDate < date && date < endDate) {
+        if (date.day != 0 || date.day != 6) {
+            if (daysOff.indexOf(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()) == -1) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 function toUTC(date) {
     var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
         date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
@@ -134,6 +147,18 @@ function toUTC(date) {
 function setNone() {
     todayoff = true;
     document.getElementById("neverGonnaGiveYouUp").innerHTML = "No school today";
+
+    for (var i = 0; i < 9; i++) {
+        if (p[i].classList.contains("highlight")) {
+            p[i].classList.remove("highlight");
+        }
+        if (!p[i].classList.contains("nothighlight")) {
+            p[i].classList.add("nothighlight");
+        }
+        if (p[i].children[1].innerHTML != "") {
+            p[i].children[1].innerHTML = "";
+        }
+    }
 }
 
 function setA() {
@@ -148,9 +173,15 @@ function setA() {
 }
 
 function displayPeriod() {
+    let noSchool = false;
     if (todayoff) {
-        checkDay();
-        return;
+        if (!tmNone(new Date())) {
+            noSchool = true;
+        }
+        else {
+            checkDay();
+            return;
+        }
     }
     let date = new Date();
 
@@ -160,29 +191,30 @@ function displayPeriod() {
     var none = true;
     var closestP;
     var closest = 100000000000000000000000000;
-
-    for (var i = 0; i < 9; i++) {
-        var temp = per[i][0] - tempdate;
-        if (temp > 0 && temp < closest) {
-            closestP = i;
-            closest = temp;
-        }
-
-        if (tempdate > per[i][0] && tempdate < per[i][1]) {
-            p[i].children[1].innerHTML = "Ending in " + msToTime(per[i][1] - tempdate);
-            p[i].classList.remove("nothighlight");
-            p[i].classList.add("highlight");
-            none = false;
-        }
-        else {
-            if (p[i].classList.contains("highlight")) {
-                p[i].classList.remove("highlight");
+    if (!noSchool) {
+        for (var i = 0; i < 9; i++) {
+            var temp = per[i][0] - tempdate;
+            if (temp > 0 && temp < closest) {
+                closestP = i;
+                closest = temp;
             }
-            if (!p[i].classList.contains("nothighlight")) {
-                p[i].classList.add("nothighlight");
+
+            if (tempdate > per[i][0] && tempdate < per[i][1]) {
+                p[i].children[1].innerHTML = "Ending in " + msToTime(per[i][1] - tempdate);
+                p[i].classList.remove("nothighlight");
+                p[i].classList.add("highlight");
+                none = false;
             }
-            if (p[i].children[1].innerHTML != "") {
-                p[i].children[1].innerHTML = "";
+            else {
+                if (p[i].classList.contains("highlight")) {
+                    p[i].classList.remove("highlight");
+                }
+                if (!p[i].classList.contains("nothighlight")) {
+                    p[i].classList.add("nothighlight");
+                }
+                if (p[i].children[1].innerHTML != "") {
+                    p[i].children[1].innerHTML = "";
+                }
             }
         }
     }
@@ -193,11 +225,18 @@ function displayPeriod() {
     time.setMinutes(per[8][1].getMinutes() - offset);
     date.setMinutes(date.getMinutes() - offset);
 
+    if (noSchool) {
+        if (date <= time) {
+            p[0].children[1].innerHTML = "Beginning in " + msToTime(per[0][0] - tempdate);
+        }
+        return;
+    }
+
     if (none) {
-        if ((date > time)) {
+        if (date > time) {
             p[8].children[1].innerHTML = "Ended " + msToTime(date - time) + " ago";
         }
-        else {
+        else if (tmNone(new Date())) {
             p[closestP].children[1].innerHTML = "Beginning in " + msToTime(closest);
         }
     }
