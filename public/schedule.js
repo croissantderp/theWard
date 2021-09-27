@@ -5,6 +5,7 @@ var fridayAs = [
 ];
 var daysOff = [];
 
+var ABSwitch;
 var isA = false;
 var todayoff = false;
 var startDate = new Date("2021-9-9");
@@ -52,18 +53,21 @@ function initiate2() {
     per[8][0].setUTCHours(17, 05);
     per[8][1].setUTCHours(17, 45);
 
-    if (date.getDay() == 1 || date.getDay() == 3) {
-        setA();
-    }
-    else if (date.getDay() == 0 || date.getDay() == 6) {
-    }
+    ABSwitch = document.getElementById("ABSwitch");
 
-    let stringDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    checkDay();
 
     for (var i = 0; i < 9; i++) {
         let temp = document.getElementById((i + 1).toString());
-        let gottem = localStorage.getItem(isA && i == 7 ? "period" + i + "A" : "period" + i);
+        let gottem = localStorage.getItem(isA ? "period" + i + "A" : "period" + i);
         temp.children[0].value = gottem == null || gottem == "" ? "Period " + (i + 1) : gottem;
+
+        if (ABSwitch.value == "Switch to B Schedule") {
+            temp.children[0].classList.add("red2");
+        }
+        else {
+            temp.children[0].classList.add("blue2");
+        }
 
         let object = {
             i: i
@@ -75,17 +79,44 @@ function initiate2() {
             if (text == "") {
                 temp.children[0].value = "Period " + (copy.i + 1);
             }
-            localStorage.setItem("period" + copy.i, text);
+            localStorage.setItem("period" + copy.i + (ABSwitch.value == "Switch to B Schedule" ? "A" : ""), text);
         });
 
         p.push(temp);
     }
+
+    $(ABSwitch).on("click", function () {
+        if (ABSwitch.value == "Switch to B Schedule") {
+            ABSwitch.value = "Switch to A Schedule";
+        }
+        else {
+            ABSwitch.value = "Switch to B Schedule";
+        }
+        setPeriods();
+    });
 
     checkDay();
 
     displayPeriod();
     setInterval(displayPeriod, 1000);
     setInterval(checkDay, 1000 * 60 * 60);
+}
+
+function setPeriods() {
+    for (var i = 0; i < 9; i++) {
+        if (ABSwitch.value == "Switch to B Schedule") {
+            let gottem = localStorage.getItem("period" + i + "A");
+            p[i].children[0].value = gottem == null || gottem == "" ? "Period " + (i + 1) : gottem;
+            p[i].children[0].classList.add("red2");
+            p[i].children[0].classList.remove("blue2");
+        }
+        else {
+            let gottem = localStorage.getItem("period" + i);
+            p[i].children[0].value = gottem == null || gottem == "" ? "Period " + (i + 1) : gottem;
+            p[i].children[0].classList.add("blue2");
+            p[i].children[0].classList.remove("red2");
+        }
+    }
 }
 
 function checkDay() {
@@ -118,6 +149,8 @@ function checkDay() {
                 setNone();
                 break;
         }
+
+        setPeriods();
     }
     else {
         setNone();
@@ -166,6 +199,7 @@ function setA() {
     isA = true;
     let dayType = document.getElementById("type");
 
+    ABSwitch.value = "Switch to B Schedule";
     dayType.innerHTML = "A";
     document.getElementById("a/an").innerHTML = "an";
     dayType.classList.remove("blue");
@@ -175,11 +209,11 @@ function setA() {
 function displayPeriod() {
     let noSchool = false;
     if (todayoff) {
+        checkDay();
         if (!tmNone(new Date())) {
             noSchool = true;
         }
         else {
-            checkDay();
             return;
         }
     }
