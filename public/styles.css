@@ -232,8 +232,12 @@
             border-radius: 5px;
         }
 
+            #assignments div div label span:hover {
+                background-color: #FFFFFF50;
+            }
 
-[type=checkbox]:checked + span { /* <-- Style its checked state */
+
+[type=checkbox]:checked + span {
     background: black;
 }
 

@@ -57,6 +57,13 @@ function initiate2() {
 
     checkDay();
 
+    if (isA) {
+        ABSwitch.value = "Switch to B Schedule";
+    }
+    else {
+        ABSwitch.value = "Switch to A Schedule";
+    }
+
     for (var i = 0; i < 9; i++) {
         let temp = document.getElementById((i + 1).toString());
         let gottem = localStorage.getItem(isA ? "period" + i + "A" : "period" + i);
@@ -95,7 +102,7 @@ function initiate2() {
         setPeriods();
     });
 
-    checkDay();
+    setPeriods();
 
     displayPeriod();
     setInterval(displayPeriod, 1000);
@@ -149,8 +156,6 @@ function checkDay() {
                 setNone();
                 break;
         }
-
-        setPeriods();
     }
     else {
         setNone();
@@ -208,8 +213,9 @@ function setA() {
 
 function displayPeriod() {
     let noSchool = false;
+    checkDay();
+
     if (todayoff) {
-        checkDay();
         if (!tmNone(new Date())) {
             noSchool = true;
         }
@@ -217,6 +223,8 @@ function displayPeriod() {
             return;
         }
     }
+
+
     let date = new Date();
 
     date.setUTCFullYear("1971", "1", "1");
@@ -270,7 +278,7 @@ function displayPeriod() {
         if (date > time) {
             p[8].children[1].innerHTML = "Ended " + msToTime(date - time) + " ago";
         }
-        else if (tmNone(new Date())) {
+        else if (!tmNone(new Date())) {
             p[closestP].children[1].innerHTML = "Beginning in " + msToTime(closest);
         }
     }
