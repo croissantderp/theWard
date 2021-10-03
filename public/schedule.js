@@ -55,26 +55,8 @@ function initiate2() {
 
     ABSwitch = document.getElementById("ABSwitch");
 
-    checkDay();
-
-    if (isA) {
-        ABSwitch.value = "Switch to B Schedule";
-    }
-    else {
-        ABSwitch.value = "Switch to A Schedule";
-    }
-
     for (var i = 0; i < 9; i++) {
         let temp = document.getElementById((i + 1).toString());
-        let gottem = localStorage.getItem(isA ? "period" + i + "A" : "period" + i);
-        temp.children[0].value = gottem == null || gottem == "" ? "Period " + (i + 1) : gottem;
-
-        if (ABSwitch.value == "Switch to B Schedule") {
-            temp.children[0].classList.add("red2");
-        }
-        else {
-            temp.children[0].classList.add("blue2");
-        }
 
         let object = {
             i: i
@@ -90,6 +72,27 @@ function initiate2() {
         });
 
         p.push(temp);
+    }
+
+    checkDay();
+
+    if (isA) {
+        ABSwitch.value = "Switch to B Schedule";
+    }
+    else {
+        ABSwitch.value = "Switch to A Schedule";
+    }
+
+    for (var i = 0; i < 9; i++) {
+        let gottem = localStorage.getItem(isA ? "period" + i + "A" : "period" + i);
+        p[i].children[0].value = gottem == null || gottem == "" ? "Period " + (i + 1) : gottem;
+
+        if (ABSwitch.value == "Switch to B Schedule") {
+            p[i].children[0].classList.add("red2");
+        }
+        else {
+            p[i].children[0].classList.add("blue2");
+        }
     }
 
     $(ABSwitch).on("click", function () {
@@ -164,9 +167,8 @@ function checkDay() {
 
 function tmNone(date) {
     date.setDate(date.getDate() + 1);
-
     if (startDate < date && date < endDate) {
-        if (date.day != 0 || date.day != 6) {
+        if (date.getDay() != 0 && date.getDay() != 6) {
             if (daysOff.indexOf(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()) == -1) {
                 return false;
             }
@@ -264,12 +266,14 @@ function displayPeriod() {
     let offset = new Date().getTimezoneOffset();
     let time = new Date(per[8][1].toLocaleString());
 
-    time.setMinutes(per[8][1].getMinutes() - offset);
-    date.setMinutes(date.getMinutes() - offset);
+    time.setMinutes(per[8][1].getMinutes());
+    date.setMinutes(date.getMinutes());
 
     if (noSchool) {
         if (date <= time) {
-            p[0].children[1].innerHTML = "Beginning in " + msToTime(per[0][0] - tempdate);
+            let temptempdate = per[0][0] - tempdate < 0 ? new Date(per[0][0]).setDate(per[0][0].getDate() + 1) : per[0][0];
+
+            p[0].children[1].innerHTML = "Beginning in " + msToTime(temptempdate - tempdate);
         }
         return;
     }

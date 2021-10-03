@@ -67,3 +67,5 @@ node_modules/
 .firebaserc
 firebase-tools-instant-win.exe
 firebase.json
+package-lock.json
+package.json
