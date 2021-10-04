@@ -109,7 +109,6 @@ function initiate2() {
 
     displayPeriod();
     setInterval(displayPeriod, 1000);
-    setInterval(checkDay, 1000 * 60 * 60);
 }
 
 function setPeriods() {
@@ -206,7 +205,6 @@ function setA() {
     isA = true;
     let dayType = document.getElementById("type");
 
-    ABSwitch.value = "Switch to B Schedule";
     dayType.innerHTML = "A";
     document.getElementById("a/an").innerHTML = "an";
     dayType.classList.remove("blue");
