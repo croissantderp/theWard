@@ -1,4 +1,9 @@
-document.addEventListener('DOMContentLoaded', function () { initiate2(); });
+﻿document.addEventListener('DOMContentLoaded', function () { initiate2(); });
+
+const bellTone = new Audio("./assets/bell.mp3");
+
+var clockFollower = [-1, -1];
+var bellOn = false;
 
 var fridayAs = [
     "2021-9-24"
@@ -6,6 +11,7 @@ var fridayAs = [
 var daysOff = [];
 
 var ABSwitch;
+var bellSwitch;
 var isA = false;
 var todayoff = false;
 var startDate = new Date("2021-9-9");
@@ -24,8 +30,6 @@ var per = [
 var p = [];
 
 function initiate2() {
-    let date = toUTC(new Date());
-
     per[0][0].setUTCHours(11, 5);
     per[0][1].setUTCHours(11, 45);
 
@@ -54,6 +58,7 @@ function initiate2() {
     per[8][1].setUTCHours(17, 45);
 
     ABSwitch = document.getElementById("ABSwitch");
+    bellSwitch = document.getElementById("audio");
 
     for (var i = 0; i < 9; i++) {
         let temp = document.getElementById((i + 1).toString());
@@ -103,6 +108,17 @@ function initiate2() {
             ABSwitch.value = "Switch to B Schedule";
         }
         setPeriods();
+    });
+
+    $(bellSwitch).on("click", function () {
+        if (bellSwitch.value == "disable bell") {
+            bellSwitch.value = "enable bell";
+            bellOn = false;
+        }
+        else {
+            bellSwitch.value = "disable bell";
+            bellOn = true;
+        }
     });
 
     setPeriods();
@@ -224,7 +240,6 @@ function displayPeriod() {
         }
     }
 
-
     let date = new Date();
 
     date.setUTCFullYear("1971", "1", "1");
@@ -232,13 +247,24 @@ function displayPeriod() {
 
     var none = true;
     var closestP;
+    var closestP2ElectricBoogaloo;
     var closest = 100000000000000000000000000;
+    var closest2ElectricBoogaloo = 100000000000000000000000000;
     if (!noSchool) {
         for (var i = 0; i < 9; i++) {
             var temp = per[i][0] - tempdate;
+            var temp2 = per[i][1] - tempdate;
             if (temp > 0 && temp < closest) {
                 closestP = i;
                 closest = temp;
+            }
+            if (temp > 0 || temp2 > 0) {
+                let tempCloser = Math.abs(temp) < Math.abs(temp2);
+                let closerTemp = tempCloser ? temp : temp2;
+
+                if (closerTemp < closest2ElectricBoogaloo) {
+                    closestP2ElectricBoogaloo = [i, tempCloser ? 0 : 1];
+                }
             }
 
             if (tempdate > per[i][0] && tempdate < per[i][1]) {
@@ -258,6 +284,34 @@ function displayPeriod() {
                     p[i].children[1].innerHTML = "";
                 }
             }
+        }
+    }
+
+    if (closestP2ElectricBoogaloo == undefined) {
+        closestP2ElectricBoogaloo = [0,0];
+    }
+
+    if (clockFollower[0] == -1) {
+        clockFollower = closestP2ElectricBoogaloo;
+        console.log(clockFollower);
+    }
+
+    if (clockFollower[0] == 0 && clockFollower[1] == 0 && tempdate > per[clockFollower[0]][clockFollower[1]]) {
+        if (tempdate > new Date(per[0][0]).setDate(per[0][0].getDate() + 1)) {
+            console.log("bell!");
+            if (bellOn) {
+                bellTone.play();
+            }
+            clockFollower = closestP2ElectricBoogaloo;
+        }
+    }
+    else {
+        if (tempdate > per[clockFollower[0]][clockFollower[1]]) {
+            console.log("bell!");
+            if (bellOn) {
+                bellTone.play();
+            }
+            clockFollower = closestP2ElectricBoogaloo;
         }
     }
 

@@ -29,7 +29,7 @@ function addLast(object) {
 function add(local, amount = 0) {
     let assignment = document.createElement("div");
     if (local) {
-        assignment.innerHTML = '<label><input type = "checkbox" placeholder="false" /><span></span></label> <input type="text" placeholder="assignment name" value="" /> <input type="date" value="" /> <input type="button" value="X" />';
+        assignment.innerHTML = '<label><input type = "checkbox" placeholder="false" /><span></span></label> <input type="text" placeholder="assignment name" value="" /> <input type="date" value="" /> <input style="width:1.75rem" type="button" value="X" />';
 
         assignment.children[3].onclick = function () { aDiv.removeChild(this.parentNode); save(); };
         assignment.children[3].disabled = true;
@@ -60,7 +60,7 @@ function add(local, amount = 0) {
         });
     }
     else {
-        assignment.innerHTML = '<label><input type = "checkbox" placeholder="false" ' + (info[amount][0] == "true" ? "checked" : "") + '/><span></span></label> <input type="text" placeholder="assignment name" value="' + info[amount][1] + '" /> <input type="date" value="' + info[amount][2] + '" /> <input type="button" value="X" />';
+        assignment.innerHTML = '<label><input type = "checkbox" placeholder="false" ' + (info[amount][0] == "true" ? "checked" : "") + '/><span></span></label> <input type="text" placeholder="assignment name" value="' + info[amount][1] + '" /> <input type="date" value="' + info[amount][2] + '" /> <input style="width:1.75rem" type="button" value="X" />';
         
         assignment.children[3].onclick = function () {
             aDiv.removeChild(this.parentNode);
