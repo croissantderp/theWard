@@ -1,14 +1,34 @@
 ﻿document.addEventListener('DOMContentLoaded', function () { initiate2(); });
 
-const bellTone = new Audio("./assets/bell.mp3");
+const bellTones = {
+    "c1": new Audio("./assets/bell_c1.mp3"),
+    "c#1": new Audio("./assets/bell_cs1.mp3"),
+    "d1": new Audio("./assets/bell_d1.mp3"),
+    "d#1": new Audio("./assets/bell_ds1.mp3"),
+    "e1": new Audio("./assets/bell_e1.mp3"),
+    "f1": new Audio("./assets/bell_f1.mp3"),
+    "f#1": new Audio("./assets/bell_fs1.mp3"),
+    "g1": new Audio("./assets/bell_g1.mp3"),
+    "g#1": new Audio("./assets/bell_gs1.mp3"),
+    "a1": new Audio("./assets/bell_a1.mp3"),
+    "a#1": new Audio("./assets/bell_as1.mp3"),
+    "b1": new Audio("./assets/bell_b1.mp3"),
+};
 
-var clockFollower = [-1, -1];
+var clockFollower = -2;
 var bellOn = false;
+var isHover = false;
+var keys = [];
 
 var fridayAs = [
-    "2021-9-24"
+    "2021-9-24",
+    "2021-10-8",
+    "2021-10-15"
 ];
-var daysOff = [];
+
+var daysOff = [
+    "2021-10-11"
+];
 
 var ABSwitch;
 var bellSwitch;
@@ -75,7 +95,7 @@ function initiate2() {
             }
             localStorage.setItem("period" + copy.i + (ABSwitch.value == "Switch to B Schedule" ? "A" : ""), text);
         });
-
+        
         p.push(temp);
     }
 
@@ -110,6 +130,29 @@ function initiate2() {
         setPeriods();
     });
 
+    $(bellSwitch).hover(function () {
+        if (isHover) {
+            isHover = false;
+        }
+        else {
+            isHover = true;
+        }
+    });
+
+    $(document).on("keydown", function (e) {
+        if (isHover) {
+            keys[e.which] = true;
+            checkNotes();
+        }
+    });
+
+    $(document).on("keyup", function (e) {
+        if (isHover) {
+            keys[e.which] = false;
+            checkNotes();
+        }
+    });
+
     $(bellSwitch).on("click", function () {
         if (bellSwitch.value == "disable bell") {
             bellSwitch.value = "enable bell";
@@ -125,6 +168,63 @@ function initiate2() {
 
     displayPeriod();
     setInterval(displayPeriod, 1000);
+}
+
+function checkNotes() {
+    for (let i = 0; i < 200; i++) {
+        if (keys[i] == true) {
+            switch (i) {
+                case 49:
+                    playNote("c");
+                    break;
+                case 50:
+                    playNote("c#");
+                    break;
+                case 51:
+                    playNote("d");
+                    break;
+                case 52:
+                    playNote("d#");
+                    break;
+                case 53:
+                    playNote("e");
+                    break;
+                case 54:
+                    playNote("f");
+                    break;
+                case 55:
+                    playNote("f#");
+                    break;
+                case 56:
+                    playNote("g");
+                    break;
+                case 57:
+                    playNote("g#");
+                    break;
+                case 48:
+                    playNote("a");
+                    break;
+                case 189:
+                    playNote("a#");
+                    break;
+                case 187:
+                    playNote("b");
+                    break;
+            }
+        }
+    }
+}
+
+function playNote(code, override = false) {
+    if (!override) {
+        if (keys[16] == true) {
+            code += "2";
+        }
+        else {
+            code += "1";
+        }
+    }
+    bellTones[code].play();
 }
 
 function setPeriods() {
@@ -242,32 +342,23 @@ function displayPeriod() {
 
     let date = new Date();
 
-    date.setUTCFullYear("1971", "1", "1");
+    date.setUTCFullYear("1971", "2", "1");
     let tempdate = toUTC(date);
 
+    var currentP = -1;
     var none = true;
     var closestP;
-    var closestP2ElectricBoogaloo;
     var closest = 100000000000000000000000000;
-    var closest2ElectricBoogaloo = 100000000000000000000000000;
     if (!noSchool) {
         for (var i = 0; i < 9; i++) {
             var temp = per[i][0] - tempdate;
-            var temp2 = per[i][1] - tempdate;
             if (temp > 0 && temp < closest) {
                 closestP = i;
                 closest = temp;
             }
-            if (temp > 0 || temp2 > 0) {
-                let tempCloser = Math.abs(temp) < Math.abs(temp2);
-                let closerTemp = tempCloser ? temp : temp2;
 
-                if (closerTemp < closest2ElectricBoogaloo) {
-                    closestP2ElectricBoogaloo = [i, tempCloser ? 0 : 1];
-                }
-            }
-
-            if (tempdate > per[i][0] && tempdate < per[i][1]) {
+            if (tempdate >= per[i][0] && tempdate < per[i][1]) {
+                currentP = i;
                 p[i].children[1].innerHTML = "Ending in " + msToTime(per[i][1] - tempdate);
                 p[i].classList.remove("nothighlight");
                 p[i].classList.add("highlight");
@@ -287,32 +378,16 @@ function displayPeriod() {
         }
     }
 
-    if (closestP2ElectricBoogaloo == undefined) {
-        closestP2ElectricBoogaloo = [0,0];
-    }
 
-    if (clockFollower[0] == -1) {
-        clockFollower = closestP2ElectricBoogaloo;
-        console.log(clockFollower);
+    if (clockFollower == -2) {
+        clockFollower = currentP;
     }
-
-    if (clockFollower[0] == 0 && clockFollower[1] == 0 && tempdate > per[clockFollower[0]][clockFollower[1]]) {
-        if (tempdate > new Date(per[0][0]).setDate(per[0][0].getDate() + 1)) {
+    else if (clockFollower != currentP) {
+        if (bellOn) {
             console.log("bell!");
-            if (bellOn) {
-                bellTone.play();
-            }
-            clockFollower = closestP2ElectricBoogaloo;
+            playNote("c1", true);
         }
-    }
-    else {
-        if (tempdate > per[clockFollower[0]][clockFollower[1]]) {
-            console.log("bell!");
-            if (bellOn) {
-                bellTone.play();
-            }
-            clockFollower = closestP2ElectricBoogaloo;
-        }
+        clockFollower = currentP;
     }
 
     let offset = new Date().getTimezoneOffset();
@@ -331,10 +406,13 @@ function displayPeriod() {
     }
 
     if (none) {
+
         if (date > time) {
             p[8].children[1].innerHTML = "Ended " + msToTime(date - time) + " ago";
         }
-        else if (!tmNone(new Date())) {
+        else if (!tmNone(new Date()) || tempdate < per[8][1]) {
+
+            console.log(tempdate + "," + per[8][1]);
             p[closestP].children[1].innerHTML = "Beginning in " + msToTime(closest);
         }
     }
