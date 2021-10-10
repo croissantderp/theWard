@@ -13,6 +13,19 @@ const bellTones = {
     "a1": new Audio("./assets/bell_a1.mp3"),
     "a#1": new Audio("./assets/bell_as1.mp3"),
     "b1": new Audio("./assets/bell_b1.mp3"),
+    "c2": new Audio("./assets/bell_c2.mp3"),
+    "c#2": new Audio("./assets/bell_cs2.mp3"),
+    "d2": new Audio("./assets/bell_d2.mp3"),
+    "d#2": new Audio("./assets/bell_ds2.mp3"),
+    "e2": new Audio("./assets/bell_e2.mp3"),
+    "f2": new Audio("./assets/bell_f2.mp3"),
+    "f#2": new Audio("./assets/bell_fs2.mp3"),
+    "g2": new Audio("./assets/bell_g2.mp3"),
+    "g#2": new Audio("./assets/bell_gs2.mp3"),
+    "a2": new Audio("./assets/bell_a2.mp3"),
+    "a#2": new Audio("./assets/bell_as2.mp3"),
+    "b2": new Audio("./assets/bell_b2.mp3"),
+    "c3": new Audio("./assets/bell_c3.mp3"),
 };
 
 var clockFollower = -2;
@@ -142,6 +155,9 @@ function initiate2() {
     $(document).on("keydown", function (e) {
         if (isHover) {
             keys[e.which] = true;
+
+            console.log(e.which);
+
             checkNotes();
         }
     });
@@ -209,6 +225,9 @@ function checkNotes() {
                     break;
                 case 187:
                     playNote("b");
+                    break;
+                case 192:
+                    playNote("c3", true);
                     break;
             }
         }
