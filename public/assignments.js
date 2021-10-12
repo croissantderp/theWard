@@ -60,8 +60,17 @@ function add(local, amount = 0) {
         });
     }
     else {
-        assignment.innerHTML = '<label><input type = "checkbox" placeholder="false" ' + (info[amount][0] == "true" ? "checked" : "") + '/><span></span></label> <input type="text" placeholder="assignment name" value="' + info[amount][1] + '" /> <input type="date" value="' + info[amount][2] + '" /> <input style="width:1.75rem" type="button" value="X" />';
-        
+        assignment.innerHTML = '<label><input type = "checkbox" placeholder="false" ' + (info[amount][0] ? "checked" : "") + '/><span></span></label> <input type="text" placeholder="assignment name" value="' + info[amount][1] + '" /> <input type="date" value="' + info[amount][2] + '" /> <input style="width:1.75rem" type="button" value="X" />';
+
+        if ($(assignment.children[0].children[0]).is(":checked")) {
+            assignment.children[1].disabled = true;
+            assignment.children[2].disabled = true;
+        }
+        else {
+            assignment.children[1].disabled = false;
+            assignment.children[2].disabled = false;
+        }
+
         assignment.children[3].onclick = function () {
             aDiv.removeChild(this.parentNode);
             save();
