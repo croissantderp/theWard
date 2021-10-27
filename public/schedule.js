@@ -36,11 +36,13 @@ var keys = [];
 var fridayAs = [
     "2021-9-24",
     "2021-10-8",
-    "2021-10-15"
+    "2021-10-15",
+    "2021-10-29",
 ];
 
 var daysOff = [
-    "2021-10-11"
+    "2021-10-11",
+    "2021-11-2"
 ];
 
 var ABSwitch;
@@ -429,7 +431,7 @@ function displayPeriod() {
         if (date > time) {
             p[8].children[1].innerHTML = "Ended " + msToTime(date - time) + " ago";
         }
-        else if (!tmNone(new Date()) || tempdate < per[8][1]) {
+        else if (!tmNone(new Date()) && tempdate < per[8][1]) {
 
             console.log(tempdate + "," + per[8][1]);
             p[closestP].children[1].innerHTML = "Beginning in " + msToTime(closest);
