@@ -301,8 +301,8 @@ function checkDay() {
     }
 }
 
-function tmNone(date) {
-    date.setDate(date.getDate() + 1);
+function tmNone(date, today = false) {
+    date.setDate(date.getDate() + (today ? 0 : 1));
     if (startDate < date && date < endDate) {
         if (date.getDay() != 0 && date.getDay() != 6) {
             if (daysOff.indexOf(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()) == -1) {
@@ -431,7 +431,7 @@ function displayPeriod() {
         if (date > time) {
             p[8].children[1].innerHTML = "Ended " + msToTime(date - time) + " ago";
         }
-        else if (!tmNone(new Date()) && tempdate < per[8][1]) {
+        else if ((!tmNone(new Date()) || !tmNone(tempdate, true)) && tempdate < per[8][1]) {
 
             console.log(tempdate + "," + per[8][1]);
             p[closestP].children[1].innerHTML = "Beginning in " + msToTime(closest);
