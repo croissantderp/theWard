@@ -244,14 +244,14 @@
     background-color: #F2CA64;
     border-color: #F2CA64;
     border-style: solid;
-    border-width: 2px;
+    border-width: 4px;
 }
 
 [type=checkbox]:hover + span {
     background-color: #FFB800;
     border-color: #FFB800;
     border-style: solid;
-    border-width: 2px;
+    border-width: 4px;
 }
 
 [type=checkbox]:checked + span {

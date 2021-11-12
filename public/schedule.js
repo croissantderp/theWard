@@ -65,32 +65,75 @@ var per = [
 var p = [];
 
 function initiate2() {
-    per[0][0].setUTCHours(11, 5);
-    per[0][1].setUTCHours(11, 45);
+    //from https://stackoverflow.com/questions/11887934/how-to-check-if-dst-daylight-saving-time-is-in-effect-and-if-so-the-offset
+    Date.prototype.stdTimezoneOffset = function () {
+        var jan = new Date(this.getFullYear(), 0, 1);
+        var jul = new Date(this.getFullYear(), 6, 1);
+        return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+    }
 
-    per[1][0].setUTCHours(11, 50);
-    per[1][1].setUTCHours(12, 30);
+    Date.prototype.isDstObserved = function () {
+        return this.getTimezoneOffset() < this.stdTimezoneOffset();
+    }
 
-    per[2][0].setUTCHours(12, 35);
-    per[2][1].setUTCHours(13, 15);
+    var today = new Date();
+    if (!today.isDstObserved()) {
+        console.log("e");
+        per[0][0].setUTCHours(12, 5);
+        per[0][1].setUTCHours(12, 45);
 
-    per[3][0].setUTCHours(13, 20);
-    per[3][1].setUTCHours(14, 0);
+        per[1][0].setUTCHours(12, 50);
+        per[1][1].setUTCHours(13, 30);
 
-    per[4][0].setUTCHours(14, 5);
-    per[4][1].setUTCHours(14, 45);
+        per[2][0].setUTCHours(13, 35);
+        per[2][1].setUTCHours(14, 15);
 
-    per[5][0].setUTCHours(14, 50);
-    per[5][1].setUTCHours(15, 30);
+        per[3][0].setUTCHours(14, 20);
+        per[3][1].setUTCHours(15, 0);
 
-    per[6][0].setUTCHours(15, 35);
-    per[6][1].setUTCHours(16, 15);
+        per[4][0].setUTCHours(15, 5);
+        per[4][1].setUTCHours(15, 45);
 
-    per[7][0].setUTCHours(16, 20);
-    per[7][1].setUTCHours(17, 00);
+        per[5][0].setUTCHours(15, 50);
+        per[5][1].setUTCHours(16, 30);
 
-    per[8][0].setUTCHours(17, 05);
-    per[8][1].setUTCHours(17, 45);
+        per[6][0].setUTCHours(16, 35);
+        per[6][1].setUTCHours(17, 15);
+
+        per[7][0].setUTCHours(17, 20);
+        per[7][1].setUTCHours(18, 00);
+
+        per[8][0].setUTCHours(18, 05);
+        per[8][1].setUTCHours(18, 45);
+    }
+    else {
+        per[0][0].setUTCHours(11, 5);
+        per[0][1].setUTCHours(11, 45);
+
+        per[1][0].setUTCHours(11, 50);
+        per[1][1].setUTCHours(12, 30);
+
+        per[2][0].setUTCHours(12, 35);
+        per[2][1].setUTCHours(13, 15);
+
+        per[3][0].setUTCHours(13, 20);
+        per[3][1].setUTCHours(14, 0);
+
+        per[4][0].setUTCHours(14, 5);
+        per[4][1].setUTCHours(14, 45);
+
+        per[5][0].setUTCHours(14, 50);
+        per[5][1].setUTCHours(15, 30);
+
+        per[6][0].setUTCHours(15, 35);
+        per[6][1].setUTCHours(16, 15);
+
+        per[7][0].setUTCHours(16, 20);
+        per[7][1].setUTCHours(17, 00);
+
+        per[8][0].setUTCHours(17, 05);
+        per[8][1].setUTCHours(17, 45);
+    }
 
     ABSwitch = document.getElementById("ABSwitch");
     bellSwitch = document.getElementById("audio");
@@ -362,7 +405,6 @@ function displayPeriod() {
     }
 
     let date = new Date();
-
     date.setUTCFullYear("1971", "2", "1");
     let tempdate = toUTC(date);
 
@@ -427,11 +469,10 @@ function displayPeriod() {
     }
 
     if (none) {
-
         if (date > time) {
             p[8].children[1].innerHTML = "Ended " + msToTime(date - time) + " ago";
         }
-        else if ((!tmNone(new Date()) || !tmNone(tempdate, true)) && tempdate < per[8][1]) {
+        else if ((!tmNone(new Date()) || !tmNone(new Date(), true)) && tempdate < per[8][1]) {
 
             console.log(tempdate + "," + per[8][1]);
             p[closestP].children[1].innerHTML = "Beginning in " + msToTime(closest);
