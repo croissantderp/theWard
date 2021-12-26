@@ -77,6 +77,9 @@ function initiate2() {
     }
 
     var today = new Date();
+
+    setTimeout(function () { document.getElementById("reloadIndicator").innerHTML = "Reload to see more accurate information"; }, 12 * 60 * 60 * 1000)
+
     if (!today.isDstObserved()) {
         console.log("e");
         per[0][0].setUTCHours(12, 5);

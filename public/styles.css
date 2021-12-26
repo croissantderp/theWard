@@ -56,6 +56,14 @@
         line-height: 1.25;
     }
 
+    .dayType #reloadIndicator {
+        color: white;
+        text-align: left;
+        font-size: 1.5rem;
+        margin: 0;
+        line-height: 1.25;
+    }
+
 .schedule {
     margin-left: auto;
     margin-right: 1rem;
@@ -318,6 +326,27 @@
     .about h2 {
         margin: 0;
     }
+
+        .about h2 button {
+            font-family: thasadith;
+            color: white;
+            font-weight: 900;
+            height: 1.5rem;
+            vertical-align: middle;
+            background-color: #00000000;
+            border-width: 1px;
+            border-style: solid;
+            border-color: white;
+            border-radius: 5px;
+            box-sizing: border-box;
+            display: inline;
+        }
+
+        .about h2 button:hover {
+            color: black;
+            border-color: black;
+            background-color: white;
+        }
 
     .about img {
         max-height: 100%;

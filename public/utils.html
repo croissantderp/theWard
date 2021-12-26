@@ -28,12 +28,15 @@
             for (let i = 0; i < coll.length; i++) {
                 let content = coll[i].nextElementSibling;
                 content.style.display = "none";
+                let thing = coll[i].children[0];
+                $(thing).click(function () {
 
-                $(coll[i]).click(function () {
                     if (content.style.display === "block") {
                         content.style.display = "none";
+                        thing.innerHTML = "◢"
                     } else {
                         content.style.display = "block";
+                        thing.innerHTML = "◥"
                     }
                 });
             }
@@ -66,19 +69,28 @@
     <div class="about">
 
         <h2 class="collapsible">
-            School Calender ◢
+            School Calender
+            <button>
+                ◢
+            </button>
         </h2>
 
         <img alt="The district calender for this school year" src="./assets/2021-2022_Calendar_BOE_Approved-1.png" />
 
         <h2 class="collapsible">
-            A-B Rotation Schedule ◢
+            A-B Rotation Schedule
+            <button>
+                ◢
+            </button>
         </h2>
 
         <img alt="The A-B rotation schedule for this school year" src="./assets/2021-2022_A-B_Rotation-1.png" />
 
         <h2 class="collapsible">
-            Bell Schedule ◢
+            Bell Schedule
+            <button>
+                ◢
+            </button>
         </h2>
 
         <img alt="The bell schedule for this school year" src="./assets/Bell_Schedule_2021-2022_School_Year-1.png" />
