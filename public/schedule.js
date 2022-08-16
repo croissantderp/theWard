@@ -81,7 +81,6 @@ function initiate2() {
     setTimeout(function () { document.getElementById("reloadIndicator").innerHTML = "Reload to see more accurate information"; }, 12 * 60 * 60 * 1000)
 
     if (!today.isDstObserved()) {
-        console.log("e");
         per[0][0].setUTCHours(12, 5);
         per[0][1].setUTCHours(12, 45);
 
@@ -91,23 +90,23 @@ function initiate2() {
         per[2][0].setUTCHours(13, 35);
         per[2][1].setUTCHours(14, 15);
 
-        per[3][0].setUTCHours(14, 20);
-        per[3][1].setUTCHours(15, 0);
+        per[3][0].setUTCHours(14, 19);
+        per[3][1].setUTCHours(14, 59);
 
-        per[4][0].setUTCHours(15, 5);
-        per[4][1].setUTCHours(15, 45);
+        per[4][0].setUTCHours(15, 4);
+        per[4][1].setUTCHours(15, 44);
 
-        per[5][0].setUTCHours(15, 50);
-        per[5][1].setUTCHours(16, 30);
+        per[5][0].setUTCHours(15, 48);
+        per[5][1].setUTCHours(16, 28);
 
-        per[6][0].setUTCHours(16, 35);
-        per[6][1].setUTCHours(17, 15);
+        per[6][0].setUTCHours(16, 32);
+        per[6][1].setUTCHours(17, 12);
 
-        per[7][0].setUTCHours(17, 20);
-        per[7][1].setUTCHours(18, 00);
+        per[7][0].setUTCHours(17, 16);
+        per[7][1].setUTCHours(17, 56);
 
-        per[8][0].setUTCHours(18, 05);
-        per[8][1].setUTCHours(18, 45);
+        per[8][0].setUTCHours(18, 00);
+        per[8][1].setUTCHours(18, 46);
     }
     else {
         per[0][0].setUTCHours(11, 5);
@@ -119,23 +118,23 @@ function initiate2() {
         per[2][0].setUTCHours(12, 35);
         per[2][1].setUTCHours(13, 15);
 
-        per[3][0].setUTCHours(13, 20);
-        per[3][1].setUTCHours(14, 0);
+        per[3][0].setUTCHours(13, 19);
+        per[3][1].setUTCHours(13, 59);
 
-        per[4][0].setUTCHours(14, 5);
-        per[4][1].setUTCHours(14, 45);
+        per[4][0].setUTCHours(14, 4);
+        per[4][1].setUTCHours(14, 44);
 
-        per[5][0].setUTCHours(14, 50);
-        per[5][1].setUTCHours(15, 30);
+        per[5][0].setUTCHours(14, 48);
+        per[5][1].setUTCHours(15, 28);
 
-        per[6][0].setUTCHours(15, 35);
-        per[6][1].setUTCHours(16, 15);
+        per[6][0].setUTCHours(15, 32);
+        per[6][1].setUTCHours(16, 12);
 
-        per[7][0].setUTCHours(16, 20);
-        per[7][1].setUTCHours(17, 00);
+        per[7][0].setUTCHours(16, 16);
+        per[7][1].setUTCHours(16, 56);
 
-        per[8][0].setUTCHours(17, 05);
-        per[8][1].setUTCHours(17, 45);
+        per[8][0].setUTCHours(17, 00);
+        per[8][1].setUTCHours(17, 46);
     }
 
     ABSwitch = document.getElementById("ABSwitch");
@@ -204,16 +203,14 @@ function initiate2() {
         if (isHover) {
             keys[e.which] = true;
 
-            console.log(e.which);
-
-            checkNotes();
+            checkNotes(e.which);
         }
     });
 
     $(document).on("keyup", function (e) {
         if (isHover) {
             keys[e.which] = false;
-            checkNotes();
+            checkNotes(e.which);
         }
     });
 
@@ -234,50 +231,91 @@ function initiate2() {
     setInterval(displayPeriod, 1000);
 }
 
-function checkNotes() {
-    for (let i = 0; i < 200; i++) {
-        if (keys[i] == true) {
-            switch (i) {
-                case 49:
-                    playNote("c");
-                    break;
-                case 50:
-                    playNote("c#");
-                    break;
-                case 51:
-                    playNote("d");
-                    break;
-                case 52:
-                    playNote("d#");
-                    break;
-                case 53:
-                    playNote("e");
-                    break;
-                case 54:
-                    playNote("f");
-                    break;
-                case 55:
-                    playNote("f#");
-                    break;
-                case 56:
-                    playNote("g");
-                    break;
-                case 57:
-                    playNote("g#");
-                    break;
-                case 48:
-                    playNote("a");
-                    break;
-                case 189:
-                    playNote("a#");
-                    break;
-                case 187:
-                    playNote("b");
-                    break;
-                case 192:
-                    playNote("c3", true);
-                    break;
-            }
+function checkNotes(i) {
+    if (keys[i] == true) {
+        switch (i) {
+            case 49:
+                playNote("c");
+                break;
+            case 50:
+                playNote("c#");
+                break;
+            case 51:
+                playNote("d");
+                break;
+            case 52:
+                playNote("d#");
+                break;
+            case 53:
+                playNote("e");
+                break;
+            case 54:
+                playNote("f");
+                break;
+            case 55:
+                playNote("f#");
+                break;
+            case 56:
+                playNote("g");
+                break;
+            case 57:
+                playNote("g#");
+                break;
+            case 48:
+                playNote("a");
+                break;
+            case 189:
+                playNote("a#");
+                break;
+            case 187:
+                playNote("b");
+                break;
+            case 192:
+                playNote("c3", true);
+                break;
+        }
+    }
+    else {
+        switch (i) {
+            case 49:
+                stopNote("c");
+                break;
+            case 50:
+                stopNote("c#");
+                break;
+            case 51:
+                stopNote("d");
+                break;
+            case 52:
+                stopNote("d#");
+                break;
+            case 53:
+                stopNote("e");
+                break;
+            case 54:
+                stopNote("f");
+                break;
+            case 55:
+                stopNote("f#");
+                break;
+            case 56:
+                stopNote("g");
+                break;
+            case 57:
+                stopNote("g#");
+                break;
+            case 48:
+                stopNote("a");
+                break;
+            case 189:
+                stopNote("a#");
+                break;
+            case 187:
+                stopNote("b");
+                break;
+            case 192:
+                stopNote("c3", true);
+                break;
         }
     }
 }
@@ -292,6 +330,22 @@ function playNote(code, override = false) {
         }
     }
     bellTones[code].play();
+}
+
+function stopNote(code, override = false) {
+
+    setTimeout(function () {
+        if (!override) {
+            if (keys[16] == true) {
+                code += "2";
+            }
+            else {
+                code += "1";
+            }
+        }
+        bellTones[code].pause();
+        bellTones[code].currentTime = 0;
+    }, 100);
 }
 
 function setPeriods() {
@@ -313,38 +367,42 @@ function setPeriods() {
 
 function checkDay() {
     let date = toUTC(new Date());
+    if (startDate < date && date < endDate) {
+        if (daysOff.indexOf(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()) == -1) {
 
-    if ((startDate < date && date < endDate) || daysOff.indexOf(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()) == -1) {
-        switch (date.getDay()) {
-            case 0:
-                setNone();
-                break;
-            case 1:
-                setA();
-                break;
-            case 2:
-                todayoff = false;
-                break;
-            case 3:
-                setA();
-                break;
-            case 4:
-                todayoff = false;
-                break;
-            case 5:
-                todayoff = false;
-                if (fridayAs.indexOf(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()) != -1) {
+            switch (date.getDay()) {
+                case 0:
+                    setNone();
+                    break;
+                case 1:
                     setA();
-                }
-                break;
-            case 6:
-                setNone();
-                break;
+                    break;
+                case 2:
+                    todayoff = false;
+                    break;
+                case 3:
+                    setA();
+                    break;
+                case 4:
+                    todayoff = false;
+                    break;
+                case 5:
+                    todayoff = false;
+                    if (fridayAs.indexOf(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()) != -1) {
+                        setA();
+                    }
+                    break;
+                case 6:
+                    setNone();
+                    break;
+            }
+
+            return;
         }
+
     }
-    else {
-        setNone();
-    }
+
+    setNone();
 }
 
 function tmNone(date, today = false) {
