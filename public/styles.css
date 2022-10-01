@@ -11,6 +11,7 @@
 #menu {
     position: fixed;
     top: -256px;
+    transition: top ease 0.5s;
 }
 
 #menu:hover{
