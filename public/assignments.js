@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () { initiate3(); });
 
-var aDiv;
-var last;
-var info = [[]];
+let aDiv;
+let last;
+let info = [[]];
 
 function initiate3() {
 
@@ -111,7 +111,7 @@ function add(local, amount = 0) {
 }
 
 function save() {
-    var info2 = [];
+    let info2 = [];
     for (let i = 0; i < aDiv.children.length - 1; i++) {
         info2[i] = [];
         info2[i][0] = $(aDiv.children[i].children[0].children[0]).is(":checked");

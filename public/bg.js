@@ -12,7 +12,7 @@ function initiate() {
         [1008, 756]
     ];
 
-    var wide;
+    let wide;
     let bg = document.getElementById("bg");
 
     bg.style.backgroundImage = "url(" + link + ")";
